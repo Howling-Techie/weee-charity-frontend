@@ -4,6 +4,7 @@ import {Route, Routes} from "react-router-dom";
 import {Clients} from "./routes/Office/Clients.jsx";
 import {Sidebar} from "./components/Sidebar.jsx";
 import {Transfers} from "./routes/Office/Transfers.jsx";
+import {Transfer} from "./routes/Office/Transfer.jsx";
 
 export default function App() {
     return (
@@ -12,6 +13,7 @@ export default function App() {
                 <Route path="/office" element={<Office/>}/>
                 <Route path="/office/clients" element={<Clients/>}/>
                 <Route path="/office/transfers" element={<Transfers/>}/>
+                <Route path="/office/transfers/:transferId" element={<Transfer/>}/>
             </Route>
             <Route path="*" element={<ErrorPage/>}/>
         </Routes>
