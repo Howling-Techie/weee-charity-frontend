@@ -6,6 +6,7 @@ import {CardWithProgress} from "../../components/cards/CardWithProgress.jsx";
 import {CardWithIcon} from "../../components/cards/CardWithIcon.jsx";
 import {CardWithLink} from "../../components/cards/CardWithLink.jsx";
 import {CalendarWeek} from "../../components/CalendarWeek.jsx";
+import {Header} from "../../components/Header.jsx";
 
 export const Office = () => {
     const testEvents = [
@@ -57,15 +58,8 @@ export const Office = () => {
     ];
     return (
         <Container>
-            <div>
-                <div className="mb-2">
-                    <div className="min-w-0 flex-1">
-                        <h2 className="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
-                            Back Office
-                        </h2>
-                    </div>
-                </div>
-            </div>
+            <Header path={[{link: "/office", title: "Back Office"}]}
+                    title="Back Office"/>
             <div className="grid grid-cols-4 gap-4 mb-4">
                 <CardWithProgress title="Transfers Today" text="8/12" currentProg={8} maxProg={12} link="/office/routes"
                                   linkText="View Routes"/>

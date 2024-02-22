@@ -2,9 +2,10 @@ import {Container} from "../../components/Container.jsx";
 import {ClientTable} from "../../components/ClientTable.jsx";
 import {useEffect, useState} from "react";
 import {matchSorter} from "match-sorter";
-import {FaCheck, FaChevronLeft, FaChevronRight} from "react-icons/fa6";
+import {FaCheck} from "react-icons/fa6";
 import {Listbox} from "@headlessui/react";
 import {LuChevronsUpDown} from "react-icons/lu";
+import {Header} from "../../components/Header.jsx";
 
 export const Clients = () => {
     const testClients = [
@@ -207,47 +208,8 @@ export const Clients = () => {
 
     return (
         <Container>
-            <div>
-                <div>
-                    <nav className="sm:hidden" aria-label="Back">
-                        <a href="/office"
-                           className="flex items-center text-sm font-medium text-neutral-400 hover:text-neutral-200">
-                            <FaChevronLeft className="-ml-1 mr-1 h-3 w-3 flex-shrink-0 text-neutral-500"
-                                           aria-hidden="true"/>
-                            Back
-                        </a>
-                    </nav>
-                    <nav className="hidden sm:flex" aria-label="Breadcrumb">
-                        <ol role="list" className="flex items-center space-x-4">
-                            <li>
-                                <div className="flex">
-                                    <a href="/office"
-                                       className="text-sm font-medium text-neutral-400 hover:text-neutral-200">
-                                        Back Office
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="flex items-center">
-                                    <FaChevronRight className="h-3 w-3 flex-shrink-0 text-neutral-500"
-                                                    aria-hidden="true"/>
-                                    <a href="/office/clients" aria-current="page"
-                                       className="ml-4 text-sm font-medium text-neutral-400 hover:text-neutral-200">
-                                        Clients
-                                    </a>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-                <div className="my-2 md:flex md:items-center md:justify-between">
-                    <div className="min-w-0 flex-1">
-                        <h2 className="text-2xl font-bold leading-7 text-white sm:truncate sm:text-3xl sm:tracking-tight">
-                            Clients
-                        </h2>
-                    </div>
-                </div>
-            </div>
+            <Header path={[{link: "/office", title: "Back Office"}, {link: "/office/clients", title: "Clients"}]}
+                    title="Clients"/>
             <div className="grid grid-cols-2 my-2 gap-2">
                 <div className="rounded bg-neutral-800 p-2">
                     Search Clients
