@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import {Dialog, Menu, Transition} from '@headlessui/react'
 import {
     FaBars,
@@ -11,16 +11,16 @@ import {
 } from "react-icons/fa6";
 import {MdTerminal} from "react-icons/md";
 import {LuMailbox} from "react-icons/lu";
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import {FaCog} from "react-icons/fa";
 
-const navigation = [
-    {name: 'Back Office', href: '#', icon: FaChartColumn, current: true},
-    {name: 'Drivers', href: '#', icon: FaVanShuttle, current: false},
-    {name: 'Warehouse', href: '#', icon: FaBoxesPacking, current: false},
-    {name: 'Processing', href: '#', icon: MdTerminal, current: false},
-    {name: 'Drop Off', href: '#', icon: LuMailbox, current: false},
-    {name: 'Admin', href: '#', icon: FaServer, current: false},
+const initialNavigation = [
+    {name: 'Back Office', href: '/office', icon: FaChartColumn, current: false},
+    {name: 'Drivers', href: '/drivers', icon: FaVanShuttle, current: false},
+    {name: 'Warehouse', href: '/warehouse', icon: FaBoxesPacking, current: false},
+    {name: 'Processing', href: '/processing', icon: MdTerminal, current: false},
+    {name: 'Drop Off', href: '/dropoff', icon: LuMailbox, current: false},
+    {name: 'Admin', href: '/admin', icon: FaServer, current: false},
 ]
 const userNavigation = [
     {name: 'Your account', href: '#'},
@@ -33,6 +33,20 @@ function classNames(...classes) {
 
 export const Sidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
+
+    const location = useLocation();
+    const {pathname} = location;
+
+    const [navigation, setNavigation] = useState(initialNavigation);
+
+    useEffect(() => {
+        const newNavigation = navigation.map(option => ({
+            ...option,
+            current: pathname.startsWith(option.href)
+        }));
+
+        setNavigation(newNavigation);
+    }, [pathname]);
 
     return (
         <>
