@@ -6,6 +6,7 @@ import {Sidebar} from "./components/Sidebar.jsx";
 import {Transfers} from "./routes/Office/Transfers.jsx";
 import {Transfer} from "./routes/Office/Transfer.jsx";
 import {Processing} from "./routes/Processing/Processing.jsx";
+import {Item} from "./routes/Processing/Item.jsx";
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
                 <Route path="/office/transfers" element={<Transfers/>}/>
                 <Route path="/office/transfers/:transferId" element={<Transfer/>}/>
                 <Route path="/processing" element={<Processing/>}/>
+                <Route path="/processing/transfers/:transferId/:itemId" element={<Item/>}/>
             </Route>
             <Route path="*" element={<ErrorPage/>}/>
         </Routes>
