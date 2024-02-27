@@ -2,6 +2,7 @@ import {Container} from "../../components/Container.jsx";
 import {useParams} from "react-router-dom";
 import {Header} from "../../components/Header.jsx";
 import {ItemTable} from "../../components/ItemTable.jsx";
+import {FaBan, FaCheck, FaRegClock, FaTriangleExclamation, FaVanShuttle} from "react-icons/fa6";
 
 export const Transfer = () => {
     const transferId = useParams().transferId;
@@ -325,7 +326,7 @@ export const Transfer = () => {
             "id": 8,
             "reference_number": "TRF008",
             "original_name": "Power Bank",
-            "name": "External Hard Drive",
+            "name": "Hard Drive",
             "note": "Mislabeled during collection.",
             "status": "processed",
             "requires_wiping": true,
@@ -496,13 +497,13 @@ export const Transfer = () => {
                         <div className="py-8 grid grid-cols-2 gap-4">
                             {/*Transfer Info*/}
                             <div>
-                                <p className="font-semibold pb-3">Client</p>
+                                <h2 className="font-semibold pb-3">Client</h2>
                                 <p>{transfer.client.name}</p>
                                 <p>{transfer.client.email}</p>
                                 <p>{transfer.client.phone}</p>
                             </div>
                             <div>
-                                <p className="font-semibold pb-3">Transfer Details</p>
+                                <h2 className="font-semibold pb-3">Transfer Details</h2>
                                 <p>{transfer.address.first_line}</p>
                                 <p>{transfer.address.second_line}</p>
                                 <p>{transfer.address.city}</p>
@@ -511,12 +512,25 @@ export const Transfer = () => {
                             </div>
                         </div>
                         <div className="py-8">
+                            <h1 className="text-2xl my-3 font-semibold">Items</h1>
                             <ItemTable items={testItems}/>
                         </div>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 flex flex-col space-y-2">
-                    <div className="rounded bg-neutral-800 h-96"></div>
+                    <div className="rounded bg-neutral-800 p-6">
+                        <h2 className="text-neutral-400 text-sm">Route #{transfer.route.id}</h2>
+                        <h1 className="text-xl">{transfer.route.name}</h1>
+                        <div
+                            className="flex flex-row mt-3">{transfer.status === "collected" ?
+                            <FaVanShuttle className="mt-1 -mb-1 mr-1"/> :
+                            transfer.status === "failed" ? <FaTriangleExclamation className="mt-1 -mb-1 mr-1"/> :
+                                transfer.status === "approved" ? <FaCheck className="mt-1 -mb-1 mr-1"/> :
+                                    transfer.status === "pending" ?
+                                        <FaRegClock className="mt-1 -mb-1 mr-1"/> :
+                                        <FaBan/>} {transfer.status.at(0).toUpperCase() + transfer.status.slice(1)}</div>
+                        {transfer.route && <p className="mt-3">Date of Collection: {transfer.route.date}</p>}
+                    </div>
                 </div>
             </div>
         </Container>

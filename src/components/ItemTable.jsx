@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import {FaBan, FaCheck, FaRegClock, FaVanShuttle} from "react-icons/fa6";
+import {FaBan, FaCheck, FaPen, FaRegClock, FaVanShuttle} from "react-icons/fa6";
 
 export const ItemTable = ({items}) => {
     const itemGroups = [...new Set(items.map(item => item.name).sort())]
     return (
         <>
-            <table className="mt-16 w-full whitespace-nowrap text-left leading-6">
+            <table className="w-full whitespace-nowrap text-left leading-6">
                 <thead className="border-b border-neutral-500">
                 <tr>
                     <th className="px-0 py-3 font-semibold">
@@ -17,7 +17,7 @@ export const ItemTable = ({items}) => {
                     <th className="py-3 pl-8 pr-0 text-right font-semibold">
                         Quantity
                     </th>
-                    <th className="py-3 pl-8 pr-0 text-right w-8 font-semibold">
+                    <th className="py-3 pl-4 text-center w-8 font-semibold">
                         Status
                     </th>
                 </tr>
@@ -33,7 +33,11 @@ export const ItemTable = ({items}) => {
                                         {item.original_name &&
                                             <div
                                                 className="text-neutral-400 line-through text-sm">{item.original_name}</div>}
-                                        <div className="font-medium">{item.name}</div>
+                                        <div className="flex flex-row"><a
+                                            href={`/office/items/${item.name}`}><FaPen
+                                            className="mr-2 p-1 rounded bg-indigo-600 text-white text-xl"/></a>
+                                            <div className="font-medium">{item.name}</div>
+                                        </div>
                                         {item.note && <div className="text-neutral-400 text-sm">{item.note}</div>}
                                     </td>
                                     <td className="py-5 pl-8 pr-0 text-right">
@@ -42,7 +46,7 @@ export const ItemTable = ({items}) => {
                                     <td className="py-5 pl-8 pr-0 text-right tabular-nums">
                                         1
                                     </td>
-                                    <td className="py-5 text-center">{
+                                    <td className="py-5 pl-4 text-center">{
                                         item.status === "awaiting collection" ? <FaRegClock className="w-full text-lg"/>
                                             : item.status === "collected" ? <FaVanShuttle className="w-full text-lg"/>
                                                 : item.status === "rejected" ? <FaBan className="w-full text-lg"/> :
@@ -63,13 +67,14 @@ export const ItemTable = ({items}) => {
                                         <td className="py-5 pl-8 pr-0 text-right tabular-nums">
                                             {filteredItems.length}
                                         </td>
-                                        <td className="py-5 flex text-center justify-center">{
-                                            item.status === "awaiting collection" ?
+                                        <td className="py-5 pl-4 text-center">{
+                                            filteredItems.some(i => i.status === "awaiting collection") ?
                                                 <FaRegClock className="w-full text-lg"/>
-                                                : item.status === "collected" ?
-                                                    <FaVanShuttle className="w-full text-lg"/>
-                                                    : item.status === "rejected" ? <FaBan className="w-full text-lg"/> :
-                                                        <FaCheck className="w-full text-lg"/>
+                                                : filteredItems.some(i => i.status === "rejected") ?
+                                                    <FaBan className="w-full text-lg"/>
+                                                    : filteredItems.some(i => i.status === "collected") ?
+                                                        <FaVanShuttle className="w-full text-lg"/>
+                                                        : <FaCheck className="w-full text-lg"/>
                                         }</td>
                                     </tr>
                                     <tr key={groupIdx} className="border-b border-neutral-700">
@@ -85,29 +90,42 @@ export const ItemTable = ({items}) => {
                                                         <th className="py-3 pl-8 pr-0 text-right font-semibold">
                                                             Reference
                                                         </th>
-                                                        <th className="py-3 pl-8 pr-0 text-right w-8 font-semibold">
+                                                        <th className="py-3 px-4 pr-0 text-center w-8 font-semibold">
                                                             Status
                                                         </th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td className="px-0 py-5 align-top">
-                                                            <div className="font-medium">{item.name}</div>
-                                                        </td>
-                                                        <td className="py-5 pl-8 pr-0 text-right">
-                                                            {item.reference_number}
-                                                        </td>
-                                                        <td className="py-5 flex text-center justify-center">{
-                                                            item.status === "awaiting collection" ?
-                                                                <FaRegClock className="w-full text-lg"/>
-                                                                : item.status === "collected" ?
-                                                                    <FaVanShuttle className="w-full text-lg"/>
-                                                                    : item.status === "rejected" ?
-                                                                        <FaBan className="w-full text-lg"/> :
-                                                                        <FaCheck className="w-full text-lg"/>
-                                                        }</td>
-                                                    </tr>
+                                                    {filteredItems.map((item, itemIdx) => {
+                                                        return (
+                                                            <tr key={itemIdx}>
+                                                                <td className="py-2 align-middle">
+                                                                    {item.original_name &&
+                                                                        <div
+                                                                            className="text-neutral-400 line-through text-sm">{item.original_name}</div>}
+                                                                    <div className="flex flex-row "><a
+                                                                        href={`/office/items/${item.name}`}><FaPen
+                                                                        className="mr-2 p-1 rounded bg-indigo-600 text-white text-xl"/></a>
+                                                                        <div className="font-medium">{item.name}</div>
+                                                                    </div>
+                                                                    {item.note && <div
+                                                                        className="text-neutral-400 text-sm">{item.note}</div>}
+                                                                </td>
+                                                                <td className="py-2 pl-8 pr-0 text-right">
+                                                                    {item.reference_number}
+                                                                </td>
+                                                                <td className="py-5 pl-4 flex text-center justify-center">{
+                                                                    item.status === "awaiting collection" ?
+                                                                        <FaRegClock className="w-full text-lg"/>
+                                                                        : item.status === "collected" ?
+                                                                            <FaVanShuttle className="w-full text-lg"/>
+                                                                            : item.status === "rejected" ?
+                                                                                <FaBan className="w-full text-lg"/> :
+                                                                                <FaCheck className="w-full text-lg"/>
+                                                                }</td>
+                                                            </tr>
+                                                        )
+                                                    })}
                                                     </tbody>
                                                 </table>
                                             </div>
