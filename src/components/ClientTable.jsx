@@ -9,6 +9,7 @@ import {
     FaUserTie
 } from "react-icons/fa6";
 import {Fragment, useState} from "react";
+import PropTypes from "prop-types";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -100,7 +101,7 @@ export const ClientTable = ({clients}) => {
                                             <div>{client.transfer_count}</div>
                                             <div
                                                 className="relative whitespace-nowrap pl-3 pr-3 text-right">
-                                                <button onClick={e => {
+                                                <button onClick={() => {
                                                     selectedClient === client.id ? setSelectedClient(null) : setSelectedClient(client.id)
                                                 }}
                                                         className="text-indigo-500 hover:text-indigo-600">
@@ -199,3 +200,33 @@ export const ClientTable = ({clients}) => {
         </div>
     );
 }
+
+
+ClientTable.propTypes = {
+    clients: PropTypes.arrayOf(
+        PropTypes.shape({
+            city: PropTypes.string.isRequired,
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            email: PropTypes.string.isRequired,
+            contact_number: PropTypes.string.isRequired,
+            postcode: PropTypes.string.isRequired,
+            transfer_count: PropTypes.number.isRequired,
+            transfers: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.number.isRequired,
+                    status: PropTypes.string.isRequired,
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    routeAssigned: PropTypes.bool.isRequired,
+                    itemCount: PropTypes.number.isRequired,
+                    reason: PropTypes.string,
+                    route: PropTypes.shape({
+                        name: PropTypes.string.isRequired,
+                        id: PropTypes.number.isRequired,
+                        date: PropTypes.instanceOf(Date).isRequired
+                    })
+                })
+            ),
+        })
+    ).isRequired,
+};

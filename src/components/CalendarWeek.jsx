@@ -3,6 +3,7 @@ import {Menu, Transition} from '@headlessui/react'
 import {FaChevronLeft, FaChevronRight} from "react-icons/fa6";
 import {FaEllipsisH} from "react-icons/fa";
 import {addDays, addWeeks, isSameDay, startOfWeek} from "date-fns";
+import PropTypes from "prop-types";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -73,7 +74,7 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
                         <button
                             type="button"
                             className="flex items-center justify-center rounded-l-md py-2 pl-3 pr-4 hover:text-neutral-300 focus:relative md:w-9 md:px-2 md:hover:bg-neutral-700"
-                            onClick={e => offsetWeek(-1)}
+                            onClick={() => offsetWeek(-1)}
                         >
                             <span className="sr-only">Previous week</span>
                             <FaChevronLeft className="h-5 w-5" aria-hidden="true"/>
@@ -81,7 +82,7 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
                         <button
                             type="button"
                             className="hidden px-3.5 text-sm font-semibold hover:bg-neutral-700 hover:text-neutral-300 focus:relative md:block"
-                            onClick={e => resetDate()}
+                            onClick={() => resetDate()}
                         >
                             Today
                         </button>
@@ -89,7 +90,7 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
                         <button
                             type="button"
                             className="flex items-center justify-center rounded-r-md py-2 pl-4 pr-3 hover:text-neutral-300 focus:relative md:w-9 md:px-2 md:hover:bg-neutral-700"
-                            onClick={e => offsetWeek(1)}
+                            onClick={() => offsetWeek(1)}
                         >
                             <span className="sr-only">Next week</span>
                             <FaChevronRight className="h-5 w-5" aria-hidden="true"/>
@@ -227,7 +228,7 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
 
                             {/* Events */}
                             <ol
-                                className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-5 sm:pr-8"
+                                className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-5 sm:pr-1"
                                 style={{gridTemplateRows: '1.75rem repeat(288, minmax(0, 1fr)) auto'}}
                             >
                                 <li className="relative mt-px hidden sm:col-start-1 sm:flex flex-col"
@@ -263,3 +264,41 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
         </div>
     )
 }
+
+CalendarWeek.propTypes = {
+    startDate: PropTypes.instanceOf(Date),
+    routes: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            status: PropTypes.string.isRequired,
+            transfers: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.number.isRequired,
+                    title: PropTypes.string.isRequired,
+                    status: PropTypes.string.isRequired,
+                    startTime: PropTypes.instanceOf(Date),
+                    endTime: PropTypes.instanceOf(Date),
+                })
+            ).isRequired
+        })
+    ).isRequired,
+};
+
+CalendarRoute.propTypes = {
+    routeInfo: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            status: PropTypes.string.isRequired,
+            transfers: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.number.isRequired,
+                    title: PropTypes.string.isRequired,
+                    status: PropTypes.string.isRequired,
+                    startTime: PropTypes.instanceOf(Date),
+                    endTime: PropTypes.instanceOf(Date),
+                })
+            ).isRequired
+        }
+    ).isRequired
+};

@@ -8,6 +8,7 @@ import {
     FaTriangleExclamation, FaVanShuttle,
     FaXmark
 } from "react-icons/fa6";
+import PropTypes from "prop-types";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -106,3 +107,26 @@ export const TransferTable = ({transfers}) => {
         </div>
     );
 }
+
+TransferTable.propTypes = {
+    transfers: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            reference_number: PropTypes.string.isRequired,
+            submission_date: PropTypes.string.isRequired,
+            route_assigned: PropTypes.bool.isRequired,
+            status: PropTypes.string.isRequired,
+            reason: PropTypes.string,
+            client: PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                name: PropTypes.string.isRequired,
+                is_business: PropTypes.bool.isRequired,
+            }).isRequired,
+            route: PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                name: PropTypes.string.isRequired,
+                date: PropTypes.string.isRequired
+            }).isRequired
+        })
+    ).isRequired,
+};
