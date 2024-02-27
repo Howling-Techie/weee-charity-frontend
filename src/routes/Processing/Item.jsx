@@ -1,8 +1,24 @@
 import {Container} from "../../components/Container.jsx";
 import {Header} from "../../components/Header.jsx";
-import {FaBan, FaCheck, FaRegClock, FaTriangleExclamation, FaVanShuttle} from "react-icons/fa6";
+import {FaBan, FaCheck, FaHardDrive, FaRegClock, FaTriangleExclamation, FaVanShuttle} from "react-icons/fa6";
 import {useParams} from "react-router-dom";
 import {ItemNotes} from "../../components/ItemNotes.jsx";
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
+const ActionButton = ({type, text, callback}) => (
+    <button
+        type="button"
+        disabled={type === "disabled"}
+        className={classNames(type === "danger" ? "bg-red-700 hover:bg-red-600" :
+            type === "disabled" ? "bg-neutral-600" :
+                "bg-indigo-500 hover:bg-indigo-400", " rounded-md px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500")}
+    >
+        {text}
+    </button>
+)
 
 const testItems = [
     {
@@ -259,7 +275,7 @@ const testItems = [
 export const Item = () => {
     const {transferId, itemId} = useParams();
 
-    const item = testItems[itemid];
+    const item = testItems[itemId];
     const transfer = item.transfer;
     transfer.client = {
         "id": 1,
@@ -307,62 +323,54 @@ export const Item = () => {
                         <span
                             className="text-neutral-400 font-display">Status: </span>{item.status}
                             <div className="pt-4 flex space-x-2">
-                                {item.status === "approved" ? <>
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Collected
-                                    </button>
-                                    <button
-                                        type="button"
-                                        disabled
-                                        className="rounded-md bg-neutral-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Processed
-                                    </button>
+                                {item.status === "denied" ? <>
+                                    <ActionButton type="danger" text="Mark as Approved"/>
+                                    <ActionButton type="disabled" text="Mark as Collected"/>
+                                    <ActionButton type="disabled" text="Mark as Collected"/>
+                                </> : item.status === "approved" ? <>
+                                    <ActionButton type="danger" text="Mark as Denied"/>
+                                    <ActionButton text="Mark as Collected"/>
+                                    <ActionButton type="disabled" text="Mark as Collected"/>
                                 </> : item.status === "collected" ? <>
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Uncollected
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Processed
-                                    </button>
+                                    <ActionButton type="disabled" text="Mark as Denied"/>
+                                    <ActionButton type="danger" text="Mark as Uncollected"/>
+                                    <div
+                                        className="flex rounded-md">
+                                        <div
+                                            className='bg-red-600 flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-white'
+                                        >
+                                            <FaHardDrive/>
+                                        </div>
+                                        <div
+                                            className="flex flex-1 px-4 py-2 text-sm font-medium text-neutral-900 items-center rounded-r-md bg-white">
+                                            Requires Wiping
+                                        </div>
+                                    </div>
+                                    <ActionButton text="Mark as Processed"/>
                                 </> : item.status === "processed" ? <>
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Uncollected
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-red-700 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Unprocessed
-                                    </button>
+                                    <ActionButton type="disabled" text="Mark as Denied"/>
+                                    <ActionButton type="disabled" text="Mark as Uncollected"/>
+                                    <div
+                                        className="flex rounded-md">
+                                        <div
+                                            className='bg-indigo-600 flex w-16 flex-shrink-0 items-center justify-center rounded-l-md text-white'
+                                        >
+                                            <FaHardDrive/>
+                                        </div>
+                                        <div
+                                            className="flex flex-1 px-4 py-2 text-sm font-medium text-neutral-900 items-center rounded-r-md bg-white h-full">
+                                            Wiped
+                                        </div>
+                                    </div>
+                                    <ActionButton type="danger" text="Mark as Unprocessed"/>
+                                </> : item.status === "skipped" ? <>
+                                    <ActionButton type="disabled" text="Mark as Denied"/>
+                                    <ActionButton text="Mark as Collected"/>
+                                    <ActionButton type="disabled" text="Mark as Processed"/>
                                 </> : <>
-                                    <button
-                                        type="button"
-                                        disabled
-                                        className="rounded-md bg-neutral-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Collected
-                                    </button>
-                                    <button
-                                        type="button"
-                                        disabled
-                                        className="rounded-md bg-neutral-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                    >
-                                        Mark as Processed
-                                    </button>
+                                    <ActionButton type="disabled" text="Mark as Denied"/>
+                                    <ActionButton type="disabled" text="Mark as Collected"/>
+                                    <ActionButton type="disabled" text="Mark as Processed"/>
                                 </>
                                 }
                             </div>
