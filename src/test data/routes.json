@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "reference": "ESE1",
+    "name": "South East England",
+    "date": "2024-03-01"
+  },
+  {
+    "id": 2,
+    "reference": "ENE1",
+    "name": "North East England",
+    "date": "2024-03-02"
+  },
+  {
+    "id": 3,
+    "reference": "ENW1",
+    "name": "North West England",
+    "date": "2024-03-03"
+  },
+  {
+    "id": 4,
+    "reference": "ESW1",
+    "name": "South West England",
+    "date": "2024-03-04"
+  },
+  {
+    "id": 5,
+    "reference": "W1",
+    "name": "Wales",
+    "date": "2024-03-05"
+  },
+  {
+    "id": 6,
+    "reference": "EE1",
+    "name": "East England",
+    "date": "2024-03-06"
+  },
+  {
+    "id": 7,
+    "reference": "Y1",
+    "name": "Yorkshire and the Humber",
+    "date": "2024-03-07"
+  },
+  {
+    "id": 8,
+    "reference": "M1",
+    "name": "The Midlands",
+    "date": "2024-03-08"
+  },
+  {
+    "id": 9,
+    "reference": "SS1",
+    "name": "South Scotland",
+    "date": "2024-03-09"
+  },
+  {
+    "id": 10,
+    "reference": "SN1",
+    "name": "North Scotland",
+    "date": "2024-03-10"
+  }
+]

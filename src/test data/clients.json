@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "name": "John Smith",
+    "email": "john@example.com",
+    "contact_number": "+44 1234 567890",
+    "address": {
+      "first_line": "123 Main Street",
+      "town": "London",
+      "city": "London",
+      "county": "Greater London",
+      "post_code": "SW1A 1AA"
+    },
+    "is_business": false
+  },
+  {
+    "id": 2,
+    "name": "Tech Innovations Ltd",
+    "email": "info@techinnovations.com",
+    "contact_number": "+44 2345 678901",
+    "address": {
+      "first_line": "456 Elm Street",
+      "town": "Manchester",
+      "city": "Manchester",
+      "county": "Greater Manchester",
+      "post_code": "M1 2XY"
+    },
+    "is_business": true
+  },
+  {
+    "id": 3,
+    "name": "Emma Johnson",
+    "email": "emma@example.com",
+    "contact_number": "+44 3456 789012",
+    "address": {
+      "first_line": "789 Oak Street",
+      "town": "Birmingham",
+      "city": "Birmingham",
+      "county": "West Midlands",
+      "post_code": "B1 1AA"
+    },
+    "is_business": false
+  },
+  {
+    "id": 4,
+    "name": "Beta Solutions Ltd",
+    "email": "contact@betasolutions.co.uk",
+    "contact_number": "+44 4567 890123",
+    "address": {
+      "first_line": "123 Pine Street",
+      "town": "Glasgow",
+      "city": "Glasgow",
+      "county": "Glasgow",
+      "post_code": "G1 1AA"
+    },
+    "is_business": true
+  },
+  {
+    "id": 5,
+    "name": "Michael Brown",
+    "email": "michael@example.com",
+    "contact_number": "+44 5678 901234",
+    "address": {
+      "first_line": "456 Maple Street",
+      "town": "Liverpool",
+      "city": "Liverpool",
+      "county": "Merseyside",
+      "post_code": "L1 1AA"
+    },
+    "is_business": false
+  },
+  {
+    "id": 6,
+    "name": "Data Solutions Inc",
+    "email": "info@datasolutions.com",
+    "contact_number": "+44 6789 012345",
+    "address": {
+      "first_line": "789 Cedar Street",
+      "town": "Leeds",
+      "city": "Leeds",
+      "county": "West Yorkshire",
+      "post_code": "LS1 1AA"
+    },
+    "is_business": true
+  },
+  {
+    "id": 7,
+    "name": "Sarah Johnson",
+    "email": "sarah@example.com",
+    "contact_number": "+44 7890 123456",
+    "address": {
+      "first_line": "123 Elm Street",
+      "town": "Cardiff",
+      "city": "Cardiff",
+      "county": "Cardiff",
+      "post_code": "CF1 1AA"
+    },
+    "is_business": false
+  },
+  {
+    "id": 8,
+    "name": "Innovate Tech Solutions Ltd",
+    "email": "info@innovatetech.co.uk",
+    "contact_number": "+44 8901 234567",
+    "address": {
+      "first_line": "456 Oak Street",
+      "town": "Edinburgh",
+      "city": "Edinburgh",
+      "county": "Edinburgh",
+      "post_code": "EH1 1AA"
+    },
+    "is_business": true
+  },
+  {
+    "id": 9,
+    "name": "David Wilson",
+    "email": "david@example.com",
+    "contact_number": "+44 9012 345678",
+    "address": {
+      "first_line": "789 Pine Street",
+      "town": "Bristol",
+      "city": "Bristol",
+      "county": "Bristol",
+      "post_code": "BS1 1AA"
+    },
+    "is_business": false
+  },
+  {
+    "id": 10,
+    "name": "Alpha Systems Ltd",
+    "email": "info@alphasystems.co.uk",
+    "contact_number": "+44 1234 567890",
+    "address": {
+      "first_line": "123 Cedar Street",
+      "town": "Newcastle",
+      "city": "Newcastle",
+      "county": "Tyne and Wear",
+      "post_code": "NE1 1AA"
+    },
+    "is_business": true
+  }
+]
