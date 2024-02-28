@@ -10,25 +10,43 @@ import {
 } from "react-icons/fa6";
 import {useParams} from "react-router-dom";
 import {ItemNotes} from "../../components/ItemNotes.jsx";
-import {Fragment, useRef, useState} from 'react'
+import {Fragment, useCallback, useRef, useState} from 'react'
 import {Dialog, Transition} from '@headlessui/react'
+import PropTypes from 'prop-types';
+import {ItemLabel} from "../../components/ItemLabel.jsx";
+import {toPng} from "html-to-image";
+import {useReactToPrint} from "react-to-print";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+const ActionButton = ({type, text, callback, fullWidth = false}) => {
+    const BASE_CLASSES = "rounded-md px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500";
+    const FULLWIDTH_CLASSES = " w-full ";
+    const btnTypeClasses = {
+        danger: "bg-red-700 hover:bg-red-600",
+        disabled: "bg-neutral-600",
+        default: "bg-indigo-500 hover:bg-indigo-400",
+    };
+    const btnClass = btnTypeClasses[type] || btnTypeClasses.default;
+    const fullWidthClass = fullWidth ? FULLWIDTH_CLASSES : "";
+    const combinedClasses = `${BASE_CLASSES} ${btnClass} ${fullWidthClass}`;
 
-const ActionButton = ({type, text, callback}) => (
-    <button
-        type="button"
-        disabled={type === "disabled"}
-        onClick={callback}
-        className={classNames(type === "danger" ? "bg-red-700 hover:bg-red-600" :
-            type === "disabled" ? "bg-neutral-600" :
-                "bg-indigo-500 hover:bg-indigo-400", " rounded-md px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500")}
-    >
-        {text}
-    </button>
-)
+    return (
+        <button
+            type="button"
+            disabled={type === "disabled"}
+            onClick={callback}
+            className={combinedClasses.trim()}
+        >
+            {text}
+        </button>
+    );
+};
+
+ActionButton.propTypes = {
+    type: PropTypes.string,
+    text: PropTypes.string.isRequired,
+    callback: PropTypes.func,
+    fullWidth: PropTypes.bool
+};
 
 const testItems = [
     {
@@ -289,9 +307,38 @@ const testItems = [
 ];
 export const Item = () => {
     const {transferId, itemId} = useParams();
-    const [open, setOpen] = useState(false)
+    const [driveCount, setDriveCount] = useState(1)
+    const [open, setOpen] = useState(false);
 
-    const cancelButtonRef = useRef(null)
+    const cancelButtonRef = useRef(null);
+
+    const ref = useRef(null);
+
+    const onDownloadButtonClick = useCallback(() => {
+        if (ref.current === null) {
+            return
+        }
+
+        toPng(ref.current, {cacheBust: true,})
+            .then((dataUrl) => {
+                const link = document.createElement('a')
+                link.download = `${item.reference_number}.png`
+                link.href = dataUrl
+                link.click()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [ref])
+
+    const onPrintButtonClick =
+        useReactToPrint({
+            content: () => ref.current,
+        })
+
+    const onAddDriveClick = () => {
+        setDriveCount(driveCount + 1);
+    }
 
     const item = testItems[itemId];
     const transfer = item.transfer;
@@ -402,19 +449,22 @@ export const Item = () => {
                     title={item.name}/>
             <div className="flex w-full space-y-3 md:space-y-0 md:space-x-3 flex-col md:flex-row">
                 <div className="w-full md:w-2/3 flex flex-col space-y-2">
-                    <div className="rounded bg-neutral-800 p-14 divide-neutral-500 divide-y">
-                        <div className="font-semibold pb-8">
+                    <div
+                        className="rounded bg-neutral-800 p-10 divide-neutral-500 divide-y">
+                        <div className="font-semibold pb-8 flex flex-row justify-between">
+                            <div>
                         <span
                             className="text-neutral-400 font-display">Received on </span>{new Date(2024, 1, 23).toDateString()}
-                            {item.original_name && <div className="font-semibold pt-3">
+                            </div>
+                            {item.original_name && <div className="font-semibold">
                         <span
                             className="text-neutral-400 font-display">Originally named </span>{item.original_name}
                             </div>}
                         </div>
-                        <div className="font-semibold py-8">
+                        <div className="font-semibold pt-8">
                         <span
                             className="text-neutral-400 font-display">Status: </span>{item.status.at(0).toUpperCase() + item.status.slice((1))}
-                            <div className="pt-4 flex space-x-2">
+                            <div className="pt-4 grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-2">
                                 {item.status === "denied" ? <>
                                     <ActionButton type="danger" text="Mark as Approved"/>
                                     <ActionButton type="disabled" text="Mark as Collected"/>
@@ -469,48 +519,102 @@ export const Item = () => {
                                 }
                             </div>
                         </div>
-                        {item.requires_wiping && <div className="pt-8">
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-neutral-100">
-                                    Hard Drive Serial Number
-                                </label>
-                                <div className="mt-2 flex-row flex space-x-2">
-                                    <input
-                                        type="serial"
-                                        name="serial"
-                                        id="serial"
-                                        className="grow rounded-md py-1.5 text-neutral-100 ring-1 ring-inset ring-gray-300 placeholder:text-neutral-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-neutral-900 pl-2"
-                                        placeholder="123456789"
-                                    />
-                                    <ActionButton text="Save"/>
-                                </div>
-                            </div>
-                            <div className="pt-4">
-                                <label htmlFor="data-cert"
-                                       className="block text-sm font-medium leading-6 text-neutral-100">
-                                    Data Certificate
-                                </label>
-                                <div
-                                    className="mt-2 flex justify-center rounded-lg border border-dashed border-neutral-100/25 px-6 py-10">
-                                    <div className="text-center">
-                                        <FaFile className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true"/>
-                                        <div className="mt-4 flex text-sm justify-center">
-                                            <label
-                                                htmlFor="file-upload"
-                                                className="relative cursor-pointer rounded-md bg-neutral-900 font-semibold text-neutral-100 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-400 p-4"
-                                            >
-                                                <span>Upload a certificate</span>
-                                                <input id="file-upload" name="file-upload" type="file"
-                                                       className="sr-only"/>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>}
                     </div>
+                    {item.requires_wiping &&
+                        <div className="rounded bg-neutral-800 p-10 divide-neutral-500 divide-y">
+                            <h2 className="font-semibold text-xl pb-4">Drives</h2>
+                            <div className="space-y-8 divide-neutral-500 divide-y">
+                                {(() => {
+                                    const drives = [];
+                                    for (let i = 0; i < driveCount; i++) {
+                                        drives.push(<div key={i}>
+                                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 py-3">
+                                                <div className="flex flex-col justify-between space-y-2">
+                                                    <div>
+                                                        <label
+                                                            className="block text-sm font-medium leading-6 text-neutral-100">
+                                                            Serial Number
+                                                        </label>
+                                                        <div className="mt-2 flex-row flex space-x-2">
+                                                            <input
+                                                                type="serial"
+                                                                name="serial"
+                                                                id="serial"
+                                                                className="grow rounded-md py-1.5 text-neutral-100 ring-1 ring-inset ring-gray-300 placeholder:text-neutral-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-neutral-900 pl-2"
+                                                                placeholder="123456789"
+                                                            />
+                                                            <ActionButton text="Save"/>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label
+                                                            className="block text-sm font-medium leading-6 text-neutral-100">
+                                                            Action
+                                                        </label>
+                                                        <div className="mt-2 flex-row flex space-x-2">
+                                                            <input
+                                                                type="status"
+                                                                name="status"
+                                                                id="status"
+                                                                className="grow rounded-md py-1.5 text-neutral-100 ring-1 ring-inset ring-gray-300 placeholder:text-neutral-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-neutral-900 pl-2"
+                                                                placeholder="Destroy"
+                                                            />
+                                                            <ActionButton text="Save"/>
+                                                        </div>
+                                                    </div>
+                                                    <ActionButton text={"Remove"} type={"danger"} fullWidth={true}/>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="data-cert"
+                                                           className="block text-sm font-medium leading-6 text-neutral-100">
+                                                        Data Certificate
+                                                    </label>
+                                                    <div
+                                                        className="mt-2 flex justify-center rounded-lg border border-dashed border-neutral-100/25 px-6 py-10">
+                                                        <div className="text-center">
+                                                            <FaFile className="mx-auto h-12 w-12 text-gray-300"
+                                                                    aria-hidden="true"/>
+                                                            <div className="mt-4 flex text-sm justify-center">
+                                                                <label
+                                                                    htmlFor="file-upload"
+                                                                    className="relative cursor-pointer rounded-md bg-neutral-900 font-semibold text-neutral-100 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-400 p-4"
+                                                                >
+                                                                    <span>Upload a certificate</span>
+                                                                    <input id="file-upload" name="file-upload"
+                                                                           type="file"
+                                                                           className="sr-only"/>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>);
+                                    }
+
+                                    return drives;
+                                })()}
+                            </div>
+                            <div className="w-full pt-4">
+                                <ActionButton text={"Add Drive"} fullWidth={true} callback={onAddDriveClick}/>
+                            </div>
+                        </div>
+                    }
                 </div>
-                <div className="w-full md:w-1/3 flex flex-col space-y-2">
+                <div className="w-full md:w-1/3 min-w-[400px] flex flex-col space-y-2">
+                    <div className="rounded bg-neutral-800 p-2">
+                        <div className="flex flex-col">
+                            <div className="flex justify-center">
+                                <div ref={ref}>
+                                    <ItemLabel item={item}/>
+                                </div>
+                            </div>
+                            <div className="flex justify-evenly pt-2 2xl:px-12 flex-row w-full space-x-4">
+                                <ActionButton text="Print Label" callback={onPrintButtonClick} fullWidth={true}/>
+                                <ActionButton text="Download Label" callback={onDownloadButtonClick} fullWidth={true}/>
+                            </div>
+                        </div>
+                    </div>
                     <div className="rounded bg-neutral-800 p-6">
                         <h2 className="text-neutral-400 text-sm">Route #{transfer.route.id}</h2>
                         <h1 className="text-xl">{transfer.route.name}</h1>
