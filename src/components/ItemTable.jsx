@@ -34,14 +34,14 @@ export const ItemTable = ({items}) => {
                                             <div
                                                 className="text-neutral-400 line-through text-sm">{item.original_name}</div>}
                                         <div className="flex flex-row"><a
-                                            href={`/office/items/${item.name}`}><FaPen
+                                            href={`/office/items/${item.id}`}><FaPen
                                             className="mr-2 p-1 rounded bg-indigo-600 text-white text-xl"/></a>
                                             <div className="font-medium">{item.name}</div>
                                         </div>
                                         {item.note && <div className="text-neutral-400 text-sm">{item.note}</div>}
                                     </td>
                                     <td className="py-5 pl-8 pr-0 text-right">
-                                        #{item.reference_number}
+                                        #{item.reference}
                                     </td>
                                     <td className="py-5 pl-8 pr-0 text-right tabular-nums">
                                         1
@@ -112,7 +112,7 @@ export const ItemTable = ({items}) => {
                                                                         className="text-neutral-400 text-sm">{item.note}</div>}
                                                                 </td>
                                                                 <td className="py-2 pl-8 pr-0 text-right">
-                                                                    {item.reference_number}
+                                                                    {item.reference}
                                                                 </td>
                                                                 <td className="py-5 pl-4 flex text-center justify-center">{
                                                                     item.status === "awaiting collection" ?

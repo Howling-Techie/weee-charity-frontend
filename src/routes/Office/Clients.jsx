@@ -6,194 +6,22 @@ import {FaCheck} from "react-icons/fa6";
 import {Listbox} from "@headlessui/react";
 import {LuChevronsUpDown} from "react-icons/lu";
 import {Header} from "../../components/Header.jsx";
+import testClients from "../../test data/clients.json";
+import testTransfers from "../../test data/transfers.json";
+import testRoutes from "../../test data/routes.json";
 
 export const Clients = () => {
-    const testClients = [
-        {
-            "id": 1,
-            "name": "ABC Company",
-            "transfer_count": 5,
-            "email": "abc@example.com",
-            "contact_number": "+44 20 1234 5678",
-            "city": "London",
-            "postcode": "SW1A 1AA"
-        },
-        {
-            "id": 2,
-            "name": "XYZ Ltd",
-            "transfer_count": 10,
-            "email": "xyz@example.com",
-            "contact_number": "+44 121 345 6789",
-            "city": "Manchester",
-            "postcode": "M1 1AA"
-        },
-        {
-            "id": 3,
-            "name": "PQR Solutions",
-            "transfer_count": 7,
-            "email": "pqr@example.com",
-            "contact_number": "+44 113 234 5678",
-            "city": "Leeds",
-            "postcode": "LS1 1AA"
-        },
-        {
-            "id": 4,
-            "name": "LMN Enterprises",
-            "transfer_count": 12,
-            "email": "lmn@example.com",
-            "contact_number": "+44 141 456 7890",
-            "city": "Glasgow",
-            "postcode": "G1 1AA"
-        },
-        {
-            "id": 5,
-            "name": "DEF Group",
-            "transfer_count": 8,
-            "email": "def@example.com",
-            "contact_number": "+44 191 345 6789",
-            "city": "Edinburgh",
-            "postcode": "EH2 1AA"
-        },
-        {
-            "id": 6,
-            "name": "RST Corporation",
-            "transfer_count": 15,
-            "email": "rst@example.com",
-            "contact_number": "+44 113 345 6789",
-            "city": "London",
-            "postcode": "SW2A 1AA"
-        },
-        {
-            "id": 7,
-            "name": "JKL Limited",
-            "transfer_count": 9,
-            "email": "jkl@example.com",
-            "contact_number": "+44 121 456 7890",
-            "city": "Liverpool",
-            "postcode": "L1 1AA"
-        },
-        {
-            "id": 8,
-            "name": "UVW Solutions",
-            "transfer_count": 6,
-            "email": "uvw@example.com",
-            "contact_number": "+44 161 234 5678",
-            "city": "Sheffield",
-            "postcode": "S1 1AA"
-        },
-        {
-            "id": 9,
-            "name": "GHI Enterprises",
-            "transfer_count": 11,
-            "email": "ghi@example.com",
-            "contact_number": "+44 141 567 8901",
-            "city": "Edinburgh",
-            "postcode": "EH1 1AA"
-        },
-        {
-            "id": 10,
-            "name": "MNO Group",
-            "transfer_count": 13,
-            "email": "mno@example.com",
-            "contact_number": "+44 113 456 7890",
-            "city": "Leicester",
-            "postcode": "LE1 1AA"
-        },
-        {
-            "id": 11,
-            "name": "PQS Ltd",
-            "transfer_count": 14,
-            "email": "pqs@example.com",
-            "contact_number": "+44 113 567 8901",
-            "city": "Brighton",
-            "postcode": "BN3 1AA"
-        },
-        {
-            "id": 12,
-            "name": "EFG Corporation",
-            "transfer_count": 16,
-            "email": "efg@example.com",
-            "contact_number": "+44 121 567 8901",
-            "city": "Cardiff",
-            "postcode": "CF1 1AA"
-        },
-        {
-            "id": 13,
-            "name": "NOP Solutions",
-            "transfer_count": 18,
-            "email": "nop@example.com",
-            "contact_number": "+44 161 345 6789",
-            "city": "Brighton",
-            "postcode": "BN2 1AA"
-        },
-        {
-            "id": 14,
-            "name": "HIJ Enterprises",
-            "transfer_count": 20,
-            "email": "hij@example.com",
-            "contact_number": "+44 113 678 9012",
-            "city": "Southampton",
-            "postcode": "SO1 1AA"
-        },
-        {
-            "id": 15,
-            "name": "TUV Group",
-            "transfer_count": 21,
-            "email": "tuv@example.com",
-            "contact_number": "+44 20 2345 6789",
-            "city": "Nottingham",
-            "postcode": "NG1 1AA"
-        },
-        {
-            "id": 16,
-            "name": "JKM Limited",
-            "transfer_count": 24,
-            "email": "jkm@example.com",
-            "contact_number": "+44 113 789 0123",
-            "city": "Leicester",
-            "postcode": "LE1 1AA"
-        },
-        {
-            "id": 17,
-            "name": "STU Corporation",
-            "transfer_count": 27,
-            "email": "stu@example.com",
-            "contact_number": "+44 20 3456 7890",
-            "city": "Brighton",
-            "postcode": "BN1 1AA"
-        },
-        {
-            "id": 18,
-            "name": "VWX Ltd",
-            "transfer_count": 30,
-            "email": "vwx@example.com",
-            "contact_number": "+44 20 4567 8901",
-            "city": "Oxford",
-            "postcode": "OX1 1AA"
-        },
-        {
-            "id": 19,
-            "name": "MNP Solutions",
-            "transfer_count": 3,
-            "email": "mnp@example.com",
-            "contact_number": "+44 113 890 1234",
-            "city": "London",
-            "postcode": "SW1B 1AA"
-        },
-        {
-            "id": 20,
-            "name": "LMK Enterprises",
-            "transfer_count": 36,
-            "email": "lmk@example.com",
-            "contact_number": "+44 20 5678 9012",
-            "city": "London",
-            "postcode": "SE1A 1AA"
-        }
-    ]
     const [searchName, setSearchName] = useState(null);
     const [selectedCities, setSelectedCities] = useState([])
     const [filteredClients, setFilteredClients] = useState(testClients);
     const cities = [...new Set(testClients.map(client => client.city))].sort();
+    for (const testClient of testClients) {
+        testClient.transfers = testTransfers.filter(transfer => transfer.client_id === testClient.id);
+        for (const transfer of testClient.transfers) {
+            if (transfer.route_id)
+                transfer.route = testRoutes.find(route => route.id === transfer.route_id)
+        }
+    }
 
     useEffect(() => {
         let filtered = testClients;

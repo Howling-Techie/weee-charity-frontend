@@ -7,55 +7,21 @@ import {CardWithIcon} from "../../components/cards/CardWithIcon.jsx";
 import {CardWithLink} from "../../components/cards/CardWithLink.jsx";
 import {CalendarWeek} from "../../components/CalendarWeek.jsx";
 import {Header} from "../../components/Header.jsx";
+import testRoutes from "../../test data/routes.json";
+import testTransfers from "../../test data/transfers.json";
+import testStaff from "../../test data/staff.json";
 
 export const Office = () => {
-    const testEvents = [
-        {
-            date: new Date('2024-02-19'),
-            id: 1,
-            title: 'North West',
-            transfers: [
-                {id: 1, startTime: '10:00', endTime: '11:00', title: 'Company A', status: "Successful"},
-                {id: 2, startTime: '12:00', endTime: '13:00', title: 'Company B', status: "Successful"},
-            ],
-        },
-        {
-            date: new Date('2024-02-19'),
-            id: 2,
-            title: 'Liverpool',
-            transfers: [
-                {id: 3, startTime: '10:00', endTime: '11:00', title: 'Company 1', status: "Successful"},
-                {id: 4, startTime: '12:00', endTime: '13:00', title: 'Company 2', status: "Unsuccessful"},
-                {id: 4, startTime: '16:00', endTime: '17:00', title: 'Company 3', status: "En Route"},
-            ],
-        },
-        {
-            date: new Date('2024-02-20'),
-            id: 3,
-            title: 'North East',
-            transfers: [
-                {id: 5, startTime: '10:00', endTime: '11:00', title: 'Company Red'},
-                {id: 6, startTime: '12:00', endTime: '13:00', title: 'Company Green'},
-                {id: 7, startTime: '13:00', endTime: '14:00', title: 'Company Blue'},
-            ],
-        },
-    ];
-    const testDrivers = [
-        {
-            name: 'Tom Jones',
-            id: 0,
-            assignedRoute: {
-                name: 'Liverpool',
-                id: 123
-            }
-        },
-        {
-            name: 'John Doe',
-            id: 1,
-            assignedRoute: {name: 'North West', id: 101},
-
+    const testDrivers = [];
+    for (const driver of testStaff.filter(staff => staff.role === "driver")) {
+        const driverRoutes = testRoutes.filter(route => route.drivers.includes(driver.id) && route.date === "2024-03-06");
+        if (driverRoutes.length > 0) {
+            testDrivers.push({...driver, routes: driverRoutes});
         }
-    ];
+    }
+    for (const testRoute of testRoutes) {
+        testRoute.transfers = testTransfers.filter(transfer => transfer.route_id === testRoute.id);
+    }
     return (
         <Container>
             <Header path={[{link: "/office", title: "Back Office"}]}
@@ -74,7 +40,7 @@ export const Office = () => {
             </div>
             <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
                 <div className="col-start-1 col-span-3 min-h-96">
-                    <CalendarWeek startDate={new Date(2024, 1, 21)} routes={testEvents}/>
+                    <CalendarWeek startDate={new Date(2024, 1, 21)} routes={testRoutes}/>
                 </div>
                 <div className="col-span-3 lg:col-span-1 h-full flex-col flex">
                     <CardWithLink link="/office/drivers" linkText="View All Drivers" title="Today's Drivers">

@@ -16,19 +16,19 @@ const CalendarRoute = ({routeInfo}) => {
             href={`/office/routes/${routeInfo.id}`}
             className="flex flex-col rounded-lg bg-neutral-100 p-2 text-xs leading-5 hover:bg-neutral-200 group-hover/transfer:bg-neutral-100 mb-2 text-neutral-800 mx-1"
         >
-            <p className="font-semibold pb-1">{routeInfo.title}</p>
+            <p className="font-semibold pb-1">{routeInfo.name} ({routeInfo.reference})</p>
             <div className="grid grid-cols-1 gap-1 mx-1">
                 {transfers.map(transfer => {
                     return (
                         <a key={transfer.id} href={`/office/transfers/${transfer.id}`}
                            className={classNames(
-                               transfer.status === "Successful" ? 'bg-green-300 hover:bg-green-400' :
-                                   (transfer.status === "En Route" ? 'bg-yellow-300 hover:bg-yellow-400' :
-                                       (transfer.status === "Unsuccessful" ? 'bg-red-300 hover:bg-red-400' : 'bg-neutral-300 hover:bg-neutral-400')),
+                               transfer.collection.status === "successful" ? 'bg-green-300 hover:bg-green-400' :
+                                   (transfer.collection.status === "en route" ? 'bg-yellow-300 hover:bg-yellow-400' :
+                                       (transfer.collection.status === "unsuccessful" ? 'bg-red-300 hover:bg-red-400' : 'bg-neutral-300 hover:bg-neutral-400')),
                                'rounded pl-1 group/transfer'
                            )}>
-                            <p>{transfer.startTime} - {transfer.endTime}</p>
-                            <p>{transfer.title}</p>
+                            <p>{new Date(transfer.collection.start_date).toLocaleTimeString()} - {new Date(transfer.collection.end_date).toLocaleTimeString()}</p>
+                            <p>{transfer.reference}</p>
                         </a>
                     )
                 })}
@@ -233,27 +233,27 @@ export const CalendarWeek = ({startDate = new Date(), routes}) => {
                             >
                                 <li className="relative mt-px hidden sm:col-start-1 sm:flex flex-col"
                                 >
-                                    {routes.filter(r => isSameDay(r.date, days[0])).map(e => (
+                                    {routes.filter(r => isSameDay(new Date(r.date), days[0])).map(e => (
                                         <CalendarRoute key={e.id} routeInfo={e}/>))}
                                 </li>
                                 <li className="relative mt-px hidden sm:col-start-2 sm:flex flex-col"
                                 >
-                                    {routes.filter(r => isSameDay(r.date, days[1])).map(e => (
+                                    {routes.filter(r => isSameDay(new Date(r.date), days[1])).map(e => (
                                         <CalendarRoute key={e.id} routeInfo={e}/>))}
                                 </li>
                                 <li className="relative mt-px hidden sm:col-start-3 sm:flex flex-col"
                                 >
-                                    {routes.filter(r => r.date === days[2]).map(e => (
+                                    {routes.filter(r => isSameDay(new Date(r.date), days[2])).map(e => (
                                         <CalendarRoute key={e.id} routeInfo={e}/>))}
                                 </li>
                                 <li className="relative mt-px hidden sm:col-start-4 sm:flex flex-col"
                                 >
-                                    {routes.filter(r => r.date.getDate() === days[3]).map(e => (
+                                    {routes.filter(r => isSameDay(new Date(r.date), days[3])).map(e => (
                                         <CalendarRoute key={e.id} routeInfo={e}/>))}
                                 </li>
                                 <li className="relative mt-px hidden sm:col-start-5 sm:flex flex-col"
                                 >
-                                    {routes.filter(r => r.date.getDate() === days[4]).map(e => (
+                                    {routes.filter(r => isSameDay(new Date(r.date), days[4])).map(e => (
                                         <CalendarRoute key={e.id} routeInfo={e}/>))}
                                 </li>
                             </ol>
@@ -270,7 +270,8 @@ CalendarWeek.propTypes = {
     routes: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
+            reference: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
             status: PropTypes.string.isRequired,
             transfers: PropTypes.arrayOf(
                 PropTypes.shape({

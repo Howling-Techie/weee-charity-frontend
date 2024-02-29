@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "role": "admin"
+  },
+  {
+    "id": 3,
+    "name": "Michael Johnson",
+    "role": "staff"
+  },
+  {
+    "id": 4,
+    "name": "Emily Williams",
+    "role": "driver"
+  },
+  {
+    "id": 5,
+    "name": "Daniel Brown",
+    "role": "driver"
+  },
+  {
+    "id": 6,
+    "name": "Sarah Taylor",
+    "role": "driver"
+  },
+  {
+    "id": 7,
+    "name": "David Jones",
+    "role": "driver"
+  },
+  {
+    "id": 8,
+    "name": "Laura Evans",
+    "role": "staff"
+  },
+  {
+    "id": 9,
+    "name": "Matthew Wilson",
+    "role": "driver"
+  },
+  {
+    "id": 10,
+    "name": "Olivia Brown",
+    "role": "staff"
+  }
+]

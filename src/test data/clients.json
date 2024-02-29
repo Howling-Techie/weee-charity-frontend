@@ -9,7 +9,7 @@
       "town": "London",
       "city": "London",
       "county": "Greater London",
-      "post_code": "SW1A 1AA"
+      "postcode": "SW1A 1AA"
     },
     "is_business": false
   },
@@ -23,7 +23,7 @@
       "town": "Manchester",
       "city": "Manchester",
       "county": "Greater Manchester",
-      "post_code": "M1 2XY"
+      "postcode": "M1 2XY"
     },
     "is_business": true
   },
@@ -37,7 +37,7 @@
       "town": "Birmingham",
       "city": "Birmingham",
       "county": "West Midlands",
-      "post_code": "B1 1AA"
+      "postcode": "B1 1AA"
     },
     "is_business": false
   },
@@ -51,7 +51,7 @@
       "town": "Glasgow",
       "city": "Glasgow",
       "county": "Glasgow",
-      "post_code": "G1 1AA"
+      "postcode": "G1 1AA"
     },
     "is_business": true
   },
@@ -65,7 +65,7 @@
       "town": "Liverpool",
       "city": "Liverpool",
       "county": "Merseyside",
-      "post_code": "L1 1AA"
+      "postcode": "L1 1AA"
     },
     "is_business": false
   },
@@ -79,7 +79,7 @@
       "town": "Leeds",
       "city": "Leeds",
       "county": "West Yorkshire",
-      "post_code": "LS1 1AA"
+      "postcode": "LS1 1AA"
     },
     "is_business": true
   },
@@ -93,7 +93,7 @@
       "town": "Cardiff",
       "city": "Cardiff",
       "county": "Cardiff",
-      "post_code": "CF1 1AA"
+      "postcode": "CF1 1AA"
     },
     "is_business": false
   },
@@ -107,7 +107,7 @@
       "town": "Edinburgh",
       "city": "Edinburgh",
       "county": "Edinburgh",
-      "post_code": "EH1 1AA"
+      "postcode": "EH1 1AA"
     },
     "is_business": true
   },
@@ -121,7 +121,7 @@
       "town": "Bristol",
       "city": "Bristol",
       "county": "Bristol",
-      "post_code": "BS1 1AA"
+      "postcode": "BS1 1AA"
     },
     "is_business": false
   },
@@ -135,7 +135,7 @@
       "town": "Newcastle",
       "city": "Newcastle",
       "county": "Tyne and Wear",
-      "post_code": "NE1 1AA"
+      "postcode": "NE1 1AA"
     },
     "is_business": true
   }

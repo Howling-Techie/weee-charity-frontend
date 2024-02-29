@@ -1,7 +1,7 @@
 import {FaUserCircle, FaRoute, FaUser} from 'react-icons/fa';
 
 export const BackOfficeDriver = ({driver}) => {
-    const {image, name, assignedRoute} = driver;
+    const {image, name, routes} = driver;
 
     return (
         <div className="flex items-center bg-neutral-900 m-1 p-2 rounded">
@@ -18,10 +18,10 @@ export const BackOfficeDriver = ({driver}) => {
                     <FaUserCircle className="mr-2 text-lg"/>
                     <h2 className="text-lg font-semibold">{name}</h2>
                 </div>
-                {assignedRoute && (
+                {routes && (
                     <div className="mt-3 flex items-center">
                         <FaRoute className="mr-2 text-md"/>
-                        <h3 className="text-neutral-400 text-sm">{assignedRoute.name}</h3>
+                        <h3 className="text-neutral-400 text-sm">{routes.map(r => r.reference).join(", ")}</h3>
                     </div>
                 )}
             </div>

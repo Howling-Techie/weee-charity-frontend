@@ -61,7 +61,7 @@
     "name": "Monitor",
     "original_name": null,
     "notes": [],
-    "status": "skipped",
+    "status": "rejected",
     "requires_wiping": false,
     "date_processed": null
   },
@@ -116,7 +116,7 @@
     "name": "Fridge",
     "original_name": "Server",
     "notes": [],
-    "status": "skipped",
+    "status": "rejected",
     "requires_wiping": false,
     "date_processed": null
   },
@@ -204,7 +204,7 @@
     "name": "Calculator",
     "original_name": "Tablet",
     "notes": [],
-    "status": "skipped",
+    "status": "rejected",
     "requires_wiping": false,
     "date_processed": null
   },
@@ -292,7 +292,7 @@
     "name": "Toaster",
     "original_name": "Server Rack",
     "notes": [],
-    "status": "skipped",
+    "status": "rejected",
     "requires_wiping": false,
     "date_processed": null
   },

@@ -6,176 +6,11 @@ import {useEffect, useState} from "react";
 import {matchSorter} from "match-sorter";
 import {TransferTable} from "../../components/TransferTable.jsx";
 import {Header} from "../../components/Header.jsx";
+import testTransfers from "../../test data/transfers.json";
+import testClients from "../../test data/clients.json";
+import testRoutes from "../../test data/routes.json";
 
 export const Transfers = () => {
-    const testTransfers = [
-        {
-            "id": 1,
-            "reference_number": "TRF001",
-            "client": {
-                "id": 1,
-                "name": "AlphaTech Ltd",
-                "is_business": true
-            },
-            "city": "London",
-            "postcode": "SW1A 1AA",
-            "submission_date": "2024-02-20",
-            "status": "approved",
-            "route_assigned": true,
-            "route": {
-                "id": 1,
-                "date": "2024-03-05",
-                "name": "Southern England Route"
-            }
-        },
-        {
-            "id": 2,
-            "reference_number": "TRF002",
-            "client": {
-                "id": 2,
-                "name": "BetaTech Solutions",
-                "is_business": true
-            },
-            "city": "Manchester",
-            "postcode": "M1 1AA",
-            "submission_date": "2024-02-21",
-            "status": "collected",
-            "route_assigned": true,
-            "route": {
-                "id": 2,
-                "date": "2024-03-10",
-                "name": "Northern England Route"
-            }
-        },
-        {
-            "id": 3,
-            "reference_number": "TRF003",
-            "client": {
-                "id": 3,
-                "name": "CharlieTech Ltd",
-                "is_business": true
-            },
-            "city": "Birmingham",
-            "postcode": "B1 1AA",
-            "submission_date": "2024-02-22",
-            "status": "denied",
-            "reason": "Unable to collect whitegoods.",
-            "route_assigned": false
-        },
-        {
-            "id": 4,
-            "reference_number": "TRF004",
-            "client": {
-                "id": 4,
-                "name": "David Smith",
-                "is_business": false
-            },
-            "city": "Glasgow",
-            "postcode": "G1 1AA",
-            "submission_date": "2024-02-23",
-            "status": "collected",
-            "route_assigned": true,
-            "route": {
-                "id": 3,
-                "date": "2024-03-15",
-                "name": "Scotland Route"
-            }
-        },
-        {
-            "id": 5,
-            "reference_number": "TRF005",
-            "client": {
-                "id": 5,
-                "name": "EchoTech Ltd",
-                "is_business": true
-            },
-            "city": "Bristol",
-            "postcode": "BS1 1AA",
-            "submission_date": "2024-02-24",
-            "status": "pending",
-            "route_assigned": false
-        },
-        {
-            "id": 6,
-            "reference_number": "TRF006",
-            "client": {
-                "id": 6,
-                "name": "Foxtrot Technologies",
-                "is_business": true
-            },
-            "city": "Cardiff",
-            "postcode": "CF1 1AA",
-            "submission_date": "2024-02-25",
-            "status": "pending",
-            "route_assigned": false
-        },
-        {
-            "id": 7,
-            "reference_number": "TRF007",
-            "client": {
-                "id": 7,
-                "name": "George Brown",
-                "is_business": false
-            },
-            "city": "Liverpool",
-            "postcode": "L1 1AA",
-            "submission_date": "2024-02-26",
-            "status": "failed",
-            "route_assigned": true,
-            "route": {
-                "id": 4,
-                "date": "2024-03-20",
-                "name": "Northwest England Route"
-            }
-        },
-        {
-            "id": 8,
-            "reference_number": "TRF008",
-            "client": {
-                "id": 8,
-                "name": "HotelTech Solutions",
-                "is_business": true
-            },
-            "city": "Edinburgh",
-            "postcode": "EH1 1AA",
-            "submission_date": "2024-02-27",
-            "status": "approved",
-            "route_assigned": false
-        },
-        {
-            "id": 9,
-            "reference_number": "TRF009",
-            "client": {
-                "id": 9,
-                "name": "IndiaTech Ltd",
-                "is_business": true
-            },
-            "city": "Leicester",
-            "postcode": "LE1 1AA",
-            "submission_date": "2024-02-28",
-            "status": "approved",
-            "route_assigned": true,
-            "route": {
-                "id": 5,
-                "date": "2024-03-25",
-                "name": "Midlands Route"
-            }
-        },
-        {
-            "id": 10,
-            "reference_number": "TRF010",
-            "client": {
-                "id": 10,
-                "name": "Juliette Evans",
-                "is_business": false
-            },
-            "city": "Southampton",
-            "postcode": "SO1 1AA",
-            "submission_date": "2024-03-01",
-            "status": "pending",
-            "route_assigned": false
-        }
-    ]
 
     const [searchTerm, setSearchTerm] = useState(null);
 
@@ -186,10 +21,16 @@ export const Transfers = () => {
     const cities = [...new Set(testTransfers.map(transfer => transfer.city))].sort();
 
     const [selectedRoutes, setSelectedRoutes] = useState([])
+
+    testTransfers.map(transfer => {
+        transfer.route = testRoutes.find(route => route.id === transfer.route_id);
+        transfer.client = testClients.find(client => client.id === transfer.client_id);
+    });
+
     const routes = [{
         id: -1,
         name: "Unassigned"
-    }, ...new Set(testTransfers.filter(transfer => transfer.route).map(transfer => transfer.route))].sort();
+    }, ...new Set(testTransfers.filter(transfer => transfer.route_id).map(transfer => transfer.route))].sort();
 
     const [filteredTransfers, setFilteredTransfers] = useState(testTransfers);
 
@@ -202,7 +43,6 @@ export const Transfers = () => {
             filtered = filtered.filter(transfer => selectedCities.includes(transfer.city));
         }
         if (selectedRoutes.length > 0) {
-            console.log(selectedRoutes)
             filtered = filtered
                 .filter(transfer => (transfer.route && selectedRoutes.includes(transfer.route.id)) ||
                     (selectedRoutes.includes(-1) && transfer.route_assigned === false && transfer.status === "approved"));

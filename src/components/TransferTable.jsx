@@ -73,8 +73,8 @@ export const TransferTable = ({transfers}) => {
                                 {transfer.client.name}
                             </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-2">{transfer.city}</td>
-                        <td className="whitespace-nowrap px-3 py-2">{transfer.postcode}</td>
+                        <td className="whitespace-nowrap px-3 py-2">{transfer.use_client_address ? transfer.client.address.city : transfer.address.city}</td>
+                        <td className="whitespace-nowrap px-3 py-2">{transfer.use_client_address ? transfer.client.address.postcode : transfer.address.postcode}</td>
                         <td className="whitespace-nowrap py-4 font-medium text-white">
                             <div className="flex justify-center text-lg">
                                 {transfer.status === "collected" ? <FaVanShuttle className="text-xl"/> :
@@ -86,20 +86,20 @@ export const TransferTable = ({transfers}) => {
                             </div>
                         </td>
                         <td className="whitespace-nowrap py-4 text-lg font-medium text-white justify-center flex">
-                            {transfer.route_assigned ? <FaCheck/> : <FaXmark/>}
+                            {transfer.route_id ? <FaCheck/> : <FaXmark/>}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                            {transfer.route_assigned ?
+                            {transfer.route_id ?
                                 <div className="flex flex-row justify-start"><a
                                     href={`/office/routes/${transfer.route.id}`}><FaRoute
-                                    className="mr-2 p-1 rounded bg-indigo-600 text-white text-xl"/></a>{transfer.route.name}
+                                    className="mr-2 p-1 rounded bg-indigo-600 text-white text-xl"/></a>{transfer.route.name} ({transfer.route.reference})
                                 </div> : transfer.status === "denied" ?
                                     <div className="flex flex-row justify-start">
                                         <FaTriangleExclamation
                                             className="mt-0.5 mr-2 text-lg"/> {transfer.reason}
                                     </div> : ""}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-2">{transfer.route_assigned && new Date(transfer.route.date).toLocaleDateString()}</td>
+                        <td className="whitespace-nowrap px-3 py-2">{transfer.route_id && new Date(transfer.route.date).toLocaleDateString()}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -112,9 +112,9 @@ TransferTable.propTypes = {
     transfers: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
-            reference_number: PropTypes.string.isRequired,
+            reference: PropTypes.string.isRequired,
             submission_date: PropTypes.string.isRequired,
-            route_assigned: PropTypes.bool.isRequired,
+            route_id: PropTypes.number.isRequired,
             status: PropTypes.string.isRequired,
             reason: PropTypes.string,
             client: PropTypes.shape({
@@ -126,7 +126,13 @@ TransferTable.propTypes = {
                 id: PropTypes.number.isRequired,
                 name: PropTypes.string.isRequired,
                 date: PropTypes.string.isRequired
-            }).isRequired
+            }),
+            collection: PropTypes.shape({
+                start_date: PropTypes.string,
+                end_date: PropTypes.string,
+                time_collected: PropTypes.string,
+                status: PropTypes.string.isRequired,
+            })
         })
     ).isRequired,
 };
